@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                     media.filter { it.type == MediaItem.Type.VIDEO }
                 }
                 R.id.filter_photos -> {
-                    media.filter { it.type == MediaItem.Type.VIDEO }
+                    media.filter { it.type == MediaItem.Type.PHOTO }
                 }
                 else -> emptyList()
             }
