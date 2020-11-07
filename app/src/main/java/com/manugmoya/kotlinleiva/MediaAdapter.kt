@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manugmoya.kotlinleiva.databinding.ViewMediaItemBinding
 
 class MediaAdapter(
-    private val items: List<MediaItem>
+    private val items: List<MediaItem>, private val listener: (MediaItem) -> Unit
 ) : RecyclerView.Adapter<MediaAdapter.ItemViewHolder>() {
 
     // Numero de items
@@ -22,6 +22,7 @@ class MediaAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
+        holder.itemView.setOnClickListener { listener.invoke(item) }
     }
 
 
@@ -37,11 +38,10 @@ class MediaAdapter(
                 MediaItem.Type.PHOTO -> View.INVISIBLE
                 MediaItem.Type.VIDEO -> View.VISIBLE
             }
-            root.setOnClickListener {
+/*            root.setOnClickListener {
                 toast(item.title)
-            }
+            }*/
         }
     }
-
 
 }

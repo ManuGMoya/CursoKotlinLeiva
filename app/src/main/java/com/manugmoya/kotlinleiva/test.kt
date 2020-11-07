@@ -45,3 +45,18 @@ fun test2(view: View) {
     }
 }
 
+// Ejemplos de lambdas
+fun testLambda(){
+    val sum: (Int, Int) -> Int = {x, y -> x + y}
+    val mul: (Int, Int) -> Int = {x, y -> x * y}
+
+    var res = doOp(2, 3, sum)
+    res = doOp(2, 3, mul)
+
+    res = doOp(2 ,3) { x, y -> x - y }
+
+
+}
+
+fun doOp(x: Int, y : Int, op: (Int, Int) -> Int) = op(x, y)
+
