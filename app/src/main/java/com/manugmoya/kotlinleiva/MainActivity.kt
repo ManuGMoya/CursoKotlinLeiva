@@ -2,9 +2,9 @@ package com.manugmoya.kotlinleiva
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import com.manugmoya.kotlinleiva.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,14 +15,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Es mejor hacer uso del binding evita posibles nulos
-        binding.recycler.adapter = MediaAdapter(getItems())
+        binding.recycler.adapter = MediaAdapter(getItems()) {
+            this.toast(it.title)
+        }
 
         toast("Hello", Toast.LENGTH_LONG)
 
         // Ejemplo de uso de función reifield
         // startActivity<MainActivity>()
-    }
 
+        // Ejemplo de uso de lambda con receiver
+        val textView = TextView(this).apply3 {
+            text = "hello"
+            hint = "Goodbye"
+            textSize = 22f
+        }
+    }
 
 
 }
