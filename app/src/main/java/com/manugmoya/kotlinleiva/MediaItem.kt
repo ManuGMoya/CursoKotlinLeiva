@@ -1,5 +1,10 @@
 package com.manugmoya.kotlinleiva
 
-data class MediaItem (val title: String, val url: String, val type: Type)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-enum class Type{ PHOTO, VIDEO}
+@Parcelize
+data class MediaItem (val title: String, val url: String, val type: Type) : Parcelable {
+    enum class Type{ PHOTO, VIDEO}
+}
+

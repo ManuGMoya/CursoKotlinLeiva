@@ -31,6 +31,11 @@ class MediaAdapter(
             mediaTitle.text = item.title
             mediaThumb.loadUrl(item.url)
 
+            mediaVideoIndicator.visibility = when(item.type){
+                MediaItem.Type.PHOTO -> View.INVISIBLE
+                MediaItem.Type.VIDEO -> View.VISIBLE
+            }
+
             setOnClickListener {
                 toast(item.title)
             }
