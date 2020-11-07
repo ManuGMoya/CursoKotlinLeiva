@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.manugmoya.kotlinleiva.databinding.ViewMediaItemBinding
-import kotlinx.android.synthetic.main.view_media_item.view.*
 
 class MediaAdapter(
     private val items: List<MediaItem>
@@ -31,14 +30,14 @@ class MediaAdapter(
 
         private val binding = ViewMediaItemBinding.bind(view)
 
-        fun bind(item: MediaItem)  {
-            binding.mediaTitle.text = item.title
-            binding.mediaThumb.loadUrl(item.url)
-            binding.mediaVideoIndicator.visibility = when(item.type){
+        fun bind(item: MediaItem) = with(binding) {
+            mediaTitle.text = item.title
+            mediaThumb.loadUrl(item.url)
+            mediaVideoIndicator.visibility = when(item.type){
                 MediaItem.Type.PHOTO -> View.INVISIBLE
                 MediaItem.Type.VIDEO -> View.VISIBLE
             }
-            binding.root.setOnClickListener {
+            root.setOnClickListener {
                 toast(item.title)
             }
         }
