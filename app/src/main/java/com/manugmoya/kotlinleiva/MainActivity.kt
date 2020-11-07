@@ -8,6 +8,14 @@ import com.manugmoya.kotlinleiva.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
+
+    // Ejemplo de uso de lazy, el código no se ejecutará hasta que la propiedad no sea llamada
+    private val adapter by lazy {
+        MediaAdapter(getItems()) {
+            this.toast(it.title)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -15,9 +23,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Es mejor hacer uso del binding evita posibles nulos
-        binding.recycler.adapter = MediaAdapter(getItems()) {
-            this.toast(it.title)
-        }
+        // en esta linea es donde se va a ejecutar el código del adapter by lazy
+        binding.recycler.adapter = adapter
 
         toast("Hello", Toast.LENGTH_LONG)
 
