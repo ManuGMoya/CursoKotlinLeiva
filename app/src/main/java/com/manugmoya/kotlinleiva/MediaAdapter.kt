@@ -3,6 +3,7 @@ package com.manugmoya.kotlinleiva
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.manugmoya.kotlinleiva.databinding.ViewMediaItemBinding
 import kotlinx.android.synthetic.main.view_media_item.view.*
 
 class MediaAdapter(
@@ -27,11 +28,17 @@ class MediaAdapter(
 
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(item: MediaItem) = with(itemView) {
-            mediaTitle.text = item.title
-            mediaThumb.loadUrl(item.url)
 
-            setOnClickListener {
+        private val binding = ViewMediaItemBinding.bind(view)
+
+        fun bind(item: MediaItem)  {
+            binding.mediaTitle.text = item.title
+            binding.mediaThumb.loadUrl(item.url)
+            binding.mediaVideoIndicator.visibility = when(item.type){
+                MediaItem.Type.PHOTO -> View.INVISIBLE
+                MediaItem.Type.VIDEO -> View.VISIBLE
+            }
+            binding.root.setOnClickListener {
                 toast(item.title)
             }
         }
