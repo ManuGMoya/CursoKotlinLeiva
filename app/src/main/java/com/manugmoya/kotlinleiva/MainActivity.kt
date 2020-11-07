@@ -14,6 +14,9 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = MediaAdapter(getItems())
 
         toast("Hello", Toast.LENGTH_LONG)
+
+        // Ejemplo de uso de función reifield
+        // startActivity<MainActivity>()
     }
 
 
