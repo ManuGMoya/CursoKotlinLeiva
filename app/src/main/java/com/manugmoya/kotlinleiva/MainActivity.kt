@@ -2,6 +2,8 @@ package com.manugmoya.kotlinleiva
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.manugmoya.kotlinleiva.databinding.ActivityMainBinding
@@ -39,7 +41,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        adapter.items = getItems().let {media ->
+            when(item.itemId) {
+                R.id.filter_all -> {
+                    media
+                }
+                R.id.filter_videos -> {
+                    media.filter { it.type == MediaItem.Type.VIDEO }
+                }
+                R.id.filter_photos -> {
+                    media.filter { it.type == MediaItem.Type.VIDEO }
+                }
+                else -> emptyList()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 }
 
 

@@ -46,17 +46,40 @@ fun test2(view: View) {
 }
 
 // Ejemplos de lambdas
-fun testLambda(){
-    val sum: (Int, Int) -> Int = {x, y -> x + y}
-    val mul: (Int, Int) -> Int = {x, y -> x * y}
+fun testLambda() {
+    val sum: (Int, Int) -> Int = { x, y -> x + y }
+    val mul: (Int, Int) -> Int = { x, y -> x * y }
 
     var res = doOp(2, 3, sum)
     res = doOp(2, 3, mul)
 
-    res = doOp(2 ,3) { x, y -> x - y }
+    res = doOp(2, 3) { x, y -> x - y }
 
 
 }
 
-fun doOp(x: Int, y : Int, op: (Int, Int) -> Int) = op(x, y)
+fun doOp(x: Int, y: Int, op: (Int, Int) -> Int) = op(x, y)
+
+fun testCollections() {
+
+    val listOfInt: List<Int> = listOf(2, 4, 5)
+
+    // Operaciones con listas
+    val result = listOfInt.filter { it % 2 == 0 }
+        .map { it.toString() }
+        .sorted()
+
+    val emptyList = emptyList<Int>()
+    val newList = emptyList + 3
+    val newList2 = emptyList + newList
+
+    val emptyMutableList : MutableList<Int> = mutableListOf()
+
+    // set No permite elementod repetidos
+    val set = setOf<Int>(3,4,5,6,3)
+
+    val map = mapOf(Pair("a",1), Pair("b", 2))
+
+
+}
 
