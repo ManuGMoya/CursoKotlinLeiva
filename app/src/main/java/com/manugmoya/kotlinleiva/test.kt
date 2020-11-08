@@ -78,8 +78,19 @@ fun testCollections() {
     // set No permite elementod repetidos
     val set = setOf<Int>(3,4,5,6,3)
 
-    val map = mapOf(Pair("a",1), Pair("b", 2))
+    val map = mapOf("a" to 1, Pair("b", 2)) // Otra manera de usar pares es con la función infix 'to'
 
+    // FUNCIONES INFIX
+
+    for(i in 0.until(10)){ // until es en realidad una función infix
+
+    }
+
+    0 until2 10 // utilizando la palabra reservada 'infix' podremos llamar a la función de esta manera
 
 }
 
+
+infix fun Int.until2(x: Int) {
+
+}
