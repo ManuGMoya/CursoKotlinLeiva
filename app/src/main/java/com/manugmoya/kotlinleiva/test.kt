@@ -3,6 +3,10 @@ package com.manugmoya.kotlinleiva
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 // CLASES
@@ -74,16 +78,17 @@ fun testCollections() {
     val newList = emptyList + 3
     val newList2 = emptyList + newList
 
-    val emptyMutableList : MutableList<Int> = mutableListOf()
+    val emptyMutableList: MutableList<Int> = mutableListOf()
 
     // set No permite elementod repetidos
-    val set = setOf<Int>(3,4,5,6,3)
+    val set = setOf<Int>(3, 4, 5, 6, 3)
 
-    val map = mapOf("a" to 1, Pair("b", 2)) // Otra manera de usar pares es con la función infix 'to'
+    val map =
+        mapOf("a" to 1, Pair("b", 2)) // Otra manera de usar pares es con la función infix 'to'
 
     // FUNCIONES INFIX
 
-    for(i in 0.until(10)){ // until es en realidad una función infix
+    for (i in 0.until(10)) { // until es en realidad una función infix
 
     }
 
@@ -96,17 +101,18 @@ infix fun Int.until2(x: Int) {
 }
 
 // OBJECTS - Son clases que tienen una única instancia, como un singleton. No pueden recibir parametros.
-object MyObject{
+object MyObject {
     var x = 20
     val y = "Hello"
 }
 
-fun testObject(){
+fun testObject() {
     MyObject.x = 300
 }
 
 
-// Propiedades de extensión
+// Propiedades de extensión -Las propiedades de extensión nos permiten añadir properties a una
+// clase existente, de la misma forma que lo hacíamos con las funciones de extensión.
 fun testPropertyExtension(viewGroup: ViewGroup) {
     viewGroup.size
     viewGroup[0]
@@ -115,5 +121,24 @@ fun testPropertyExtension(viewGroup: ViewGroup) {
 val ViewGroup.size: Int
     get() = childCount
 
-// Sobrecarga de operadores - hay que añadir la palabra reservada operator
+// Sobrecarga de operadores - La sobrecarga de operadores nos va a dar la oportunidad de agregar
+// operadores a cualquier clase sobrescribiendo los métodos correspondientes y marcándolos con el modificador ​operator​.
 operator fun ViewGroup.get(index: Int): View = getChildAt(index)
+
+// Coroutines
+fun coroutines() {
+
+    // Hay que definir un scope paras la corrutina, que es un ámbito donde se ejecutará la corrutine.
+    // el bloque de codigo que se ejecute aquí se ejecutará como una función de suspensión.
+
+    // Dispatchers.Main -> Hilo principal
+    GlobalScope.launch(Dispatchers.Main) {
+        // Dispatchers.IO -> para llamadas de entrada salida(ej.peticiones a servidor) Al hacerlo
+        // en otro hilo que no es el principal, el hilo principal no se bloquea.
+        val result = withContext(Dispatchers.IO) { heavyTask() }
+        // En este punto estaremos de nuevo en el hilo principal.
+        print(result)
+    }
+}
+
+fun heavyTask(): String = "Hello"

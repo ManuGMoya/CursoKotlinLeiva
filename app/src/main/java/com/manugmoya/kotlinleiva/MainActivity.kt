@@ -4,19 +4,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.manugmoya.kotlinleiva.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
 
-    // Ejemplo de uso de lazy, el código no se ejecutará hasta que la propiedad no sea llamada
-    private val adapter by lazy {
-        MediaAdapter(MediaProvider.getItems()) {
-            this.toast(it.title)
-        }
-    }
+    private val adapter = MediaAdapter { this.toast(it.title) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         // Es mejor hacer uso del binding evita posibles nulos
         // en esta linea es donde se va a ejecutar el código del adapter by lazy
         binding.recycler.adapter = adapter
+
+        updateItems()
 
         toast("Hello", Toast.LENGTH_LONG)
 
@@ -41,14 +45,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return super.onCreateOptionsMenu(menu)
+    private fun updateItems(filter: Int = R.id.filter_all) {
+        // Uso de corrutinas
+        GlobalScope.launch(Dispatchers.Main) {
+            progress.visibility = View.VISIBLE
+            val items = withContext(Dispatchers.IO) {
+                getFilteredItems(filter)
+            }
+            adapter.items = items
+            progress.visibility = View.GONE
+        }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.items = MediaProvider.getItems().let { media ->
-            when(item.itemId) {
+    private fun getFilteredItems(filter: Int): List<MediaItem> {
+        return MediaProvider.getItems().let { media ->
+            when (filter) {
                 R.id.filter_all -> {
                     media
                 }
@@ -61,7 +72,15 @@ class MainActivity : AppCompatActivity() {
                 else -> emptyList()
             }
         }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        updateItems(item.itemId)
         return super.onOptionsItemSelected(item)
     }
 }
