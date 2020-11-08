@@ -104,3 +104,16 @@ object MyObject{
 fun testObject(){
     MyObject.x = 300
 }
+
+
+// Propiedades de extensión
+fun testPropertyExtension(viewGroup: ViewGroup) {
+    viewGroup.size
+    viewGroup[0]
+}
+
+val ViewGroup.size: Int
+    get() = childCount
+
+// Sobrecarga de operadores - hay que añadir la palabra reservada operator
+operator fun ViewGroup.get(index: Int): View = getChildAt(index)

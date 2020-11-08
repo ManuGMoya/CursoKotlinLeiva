@@ -1,15 +1,22 @@
 package com.manugmoya.kotlinleiva
 
+import android.view.View
+import android.view.ViewGroup
+
 fun getItems1(): MutableList<MediaItem> {
 
     val listMedia = mutableListOf<MediaItem>()
 
-    for (i in 1..10){
-        listMedia.add(MediaItem("Title $i", "https://placekitten.com/200/200?image=$i", if (i % 3 == 0){
-            MediaItem.Type.PHOTO
-        }else{
-            MediaItem.Type.VIDEO
-        }))
+    for (i in 1..10) {
+        listMedia.add(
+            MediaItem(
+                "Title $i", "https://placekitten.com/200/200?image=$i", if (i % 3 == 0) {
+                    MediaItem.Type.PHOTO
+                } else {
+                    MediaItem.Type.VIDEO
+                }
+            )
+        )
     }
 
 /*    val listOf = listOf(
@@ -27,10 +34,12 @@ fun getItems1(): MutableList<MediaItem> {
     return listMedia
 }
 
-object MediaProvider{
-    fun getItems() : List<MediaItem> = (1 .. 10).map{
-        (MediaItem("Title $it", "https://placekitten.com/200/200?image=$it",
+object MediaProvider {
+    fun getItems(): List<MediaItem> = (1..10).map {
+        (MediaItem(
+            "Title $it", "https://placekitten.com/200/200?image=$it",
             if (it % 3 == 0) MediaItem.Type.PHOTO else MediaItem.Type.VIDEO
         ))
     }
 }
+
