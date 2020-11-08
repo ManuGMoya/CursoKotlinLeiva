@@ -9,19 +9,27 @@ import android.widget.TextView
 import android.widget.Toast
 import com.manugmoya.kotlinleiva.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
+// Para generar nuestro scope extendemos de CoroutineScope
+class MainActivity : AppCompatActivity() , CoroutineScope{
 
-class MainActivity : AppCompatActivity() {
+    // Necesitamos el dispacher por defecto y un job, que es el trabajo al que se asocian las corrutinas
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    // Lo hacemos lateinit para recrearlo cada vez que se recree la activity
+    private lateinit var job: Job
 
     private val adapter = MediaAdapter { this.toast(it.title) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // se hace uso de SupervisorJob() para en caso de que una corrutina se cancele, las demás no lo hagan.
+        job = SupervisorJob()
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,8 +54,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateItems(filter: Int = R.id.filter_all) {
-        // Uso de corrutinas
-        GlobalScope.launch(Dispatchers.Main) {
+        // Uso de corrutinas - El uso de GlobalScope no está recomendado porque sobrevive durante todo
+        // el ciclo de la aplicación. Por lo que nos creamos nuestro propio scope
+        launch {
             progress.visibility = View.VISIBLE
             val items = withContext(Dispatchers.IO) {
                 getFilteredItems(filter)
@@ -82,6 +91,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         updateItems(item.itemId)
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 }
 
