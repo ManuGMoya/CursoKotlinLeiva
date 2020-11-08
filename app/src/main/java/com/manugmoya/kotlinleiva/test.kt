@@ -60,6 +60,7 @@ fun testLambda() {
 
 fun doOp(x: Int, y: Int, op: (Int, Int) -> Int) = op(x, y)
 
+// Ejemplos de colecciones
 fun testCollections() {
 
     val listOfInt: List<Int> = listOf(2, 4, 5)
@@ -90,7 +91,16 @@ fun testCollections() {
 
 }
 
-
 infix fun Int.until2(x: Int) {
 
+}
+
+// OBJECTS - Son clases que tienen una única instancia, como un singleton. No pueden recibir parametros.
+object MyObject{
+    var x = 20
+    val y = "Hello"
+}
+
+fun testObject(){
+    MyObject.x = 300
 }

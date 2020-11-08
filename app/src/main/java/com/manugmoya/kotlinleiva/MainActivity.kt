@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     // Ejemplo de uso de lazy, el código no se ejecutará hasta que la propiedad no sea llamada
     private val adapter by lazy {
-        MediaAdapter(getItems()) {
+        MediaAdapter(MediaProvider.getItems()) {
             this.toast(it.title)
         }
     }
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.items = getItems().let {media ->
+        adapter.items = MediaProvider.getItems().let { media ->
             when(item.itemId) {
                 R.id.filter_all -> {
                     media

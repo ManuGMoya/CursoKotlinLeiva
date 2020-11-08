@@ -27,8 +27,10 @@ fun getItems1(): MutableList<MediaItem> {
     return listMedia
 }
 
-fun getItems() : List<MediaItem> = (1 .. 10).map{
-    (MediaItem("Title $it", "https://placekitten.com/200/200?image=$it",
-        if (it % 3 == 0) MediaItem.Type.PHOTO else MediaItem.Type.VIDEO
-    ))
+object MediaProvider{
+    fun getItems() : List<MediaItem> = (1 .. 10).map{
+        (MediaItem("Title $it", "https://placekitten.com/200/200?image=$it",
+            if (it % 3 == 0) MediaItem.Type.PHOTO else MediaItem.Type.VIDEO
+        ))
+    }
 }
