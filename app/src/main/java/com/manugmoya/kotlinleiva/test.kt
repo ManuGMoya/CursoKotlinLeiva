@@ -142,3 +142,18 @@ fun coroutines() {
 }
 
 fun heavyTask(): String = "Hello"
+
+
+sealed class Op {
+    class Add(val value: Int) : Op()
+    class Sub(val value: Int) : Op()
+    class Mul(val value: Int) : Op()
+    object Inc : Op()
+}
+
+fun testSealedClass(x: Int, op: Op) : Int = when (op){
+    is Op.Add -> x + op.value
+    is Op.Sub -> x - op.value
+    is Op.Mul -> x * op.value
+    Op.Inc -> x + 1
+}

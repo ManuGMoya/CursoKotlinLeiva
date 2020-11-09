@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private fun updateItems(filter: Int = R.id.filter_all) {
+    private fun updateItems(filter: Filter = Filter.None) {
         // Uso de corrutinas - El uso de GlobalScope no está recomendado porque sobrevive durante todo
         // el ciclo de la aplicación. Por lo que nos creamos nuestro propio scope
         lifecycleScope.launch {
@@ -72,19 +72,15 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    private fun getFilteredItems(filter: Int): List<MediaItem> {
+    private fun getFilteredItems(filter: Filter): List<MediaItem> {
         return MediaProvider.getItems().let { media ->
             when (filter) {
-                R.id.filter_all -> {
+                Filter.None -> {
                     media
                 }
-                R.id.filter_videos -> {
-                    media.filter { it.type == MediaItem.Type.VIDEO }
+                is Filter.ByType -> {
+                    media.filter { it.type == filter.type }
                 }
-                R.id.filter_photos -> {
-                    media.filter { it.type == MediaItem.Type.PHOTO }
-                }
-                else -> emptyList()
             }
         }
     }
@@ -95,7 +91,12 @@ class MainActivity : AppCompatActivity()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        updateItems(item.itemId)
+        val filter = when(item.itemId){
+            R.id.filter_videos -> Filter.ByType(MediaItem.Type.VIDEO)
+            R.id.filter_photos ->  Filter.ByType(MediaItem.Type.PHOTO)
+            else -> Filter.None
+        }
+        updateItems(filter)
         return super.onOptionsItemSelected(item)
     }
 
