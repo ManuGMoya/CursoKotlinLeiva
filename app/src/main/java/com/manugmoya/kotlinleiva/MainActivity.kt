@@ -1,17 +1,18 @@
 package com.manugmoya.kotlinleiva
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.manugmoya.kotlinleiva.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // Para generar nuestro scope extendemos de CoroutineScope
 class MainActivity : AppCompatActivity()
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity()
     // Lo hacemos lateinit para recrearlo cada vez que se recree la activity
     private lateinit var job: Job*/
 
-    private val adapter = MediaAdapter { this.toast(it.title) }
+    private val adapter = MediaAdapter {
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

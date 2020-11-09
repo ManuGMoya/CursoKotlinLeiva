@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_media_item.view.*
@@ -31,9 +32,13 @@ fun ImageView.loadUrl(url: String){
 // por la llamada al código que está dentro de la función de modo que con el reifield
 // no se pierde la información del tipo genérico
 // Por lo tanto para hacer uso de reifield() genéricos es necesarion que vaya acompañado de inline.
-inline fun  <reified T : Activity> Context.startActivity() {
-    val intent = Intent(this, T::class.java)
-    startActivity(intent)
+inline fun  <reified T : Activity> Context.startActivity(vararg pairs: Pair<String, Any?>) {
+    val bundle = bundleOf(*pairs)
+
+    Intent(this, T::class.java)
+        .apply {
+        putExtras(bundle)
+    }.also (::startActivity)
 }
 
 

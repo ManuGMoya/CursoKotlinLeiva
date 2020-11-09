@@ -11,6 +11,7 @@ fun getItems1(): MutableList<MediaItem> {
     for (i in 1..10) {
         listMedia.add(
             MediaItem(
+                i,
                 "Title $i", "https://placekitten.com/200/200?image=$i", if (i % 3 == 0) {
                     MediaItem.Type.PHOTO
                 } else {
@@ -42,6 +43,7 @@ object MediaProvider {
         Thread.sleep(2000)
         return (1..10).map {
             (MediaItem(
+                it,
                 "Title $it", "https://placekitten.com/200/200?image=$it",
                 if (it % 3 == 0) MediaItem.Type.PHOTO else MediaItem.Type.VIDEO
             ))
