@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manugmoya.kotlinleiva.databinding.ViewMediaItemBinding
 import kotlin.properties.Delegates
 
+typealias Listener = (MediaItem) -> Unit
+
 class MediaAdapter(
-    items: List<MediaItem> = emptyList(), private val listener: (MediaItem) -> Unit
+    items: List<MediaItem> = emptyList(), private val listener: Listener
 ) : RecyclerView.Adapter<MediaAdapter.ItemViewHolder>() {
 
     // hay que hacerla publica y var para poder modificarla desde fuera de esta clase.
